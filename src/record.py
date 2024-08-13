@@ -1,10 +1,10 @@
 # 定义record
-# keySize: 4 bytes
-# key: keySize bytes
-# valueSize: 4 bytes
-# value: valueSize bytes
-# checksum: 4 bytes
-# 总长度：16 bytes
+# keySize: 4 data
+# key: keySize data
+# valueSize: 4 data
+# value: valueSize data
+# checksum: 4 data
+# 总长度：16 data
 # 如果valueSize为0，则表示删除操作，此时value为空
 
 import struct
@@ -73,8 +73,8 @@ def from_bytes_multiple(bytes_data):
 #     record = Record("test_key", "test_value")
     
 #     # 将Record对象转换为bytes
-#     record_bytes = record.bytes()
-#     print(f"Record bytes: {record_bytes}")
+#     record_bytes = record.data()
+#     print(f"Record data: {record_bytes}")
     
 #     # 从bytes转换回Record对象
 #     restored_record = Record.from_bytes(record_bytes)
@@ -82,8 +82,8 @@ def from_bytes_multiple(bytes_data):
     
 #     # 测试删除操作
 #     delete_record = Record("test_key", "")
-#     delete_record_bytes = delete_record.bytes()
-#     print(f"Delete Record bytes: {delete_record_bytes}")
+#     delete_record_bytes = delete_record.data()
+#     print(f"Delete Record data: {delete_record_bytes}")
     
 #     restored_delete_record = Record.from_bytes(delete_record_bytes)
 #     print(f"Restored Delete Record - Key: {restored_delete_record.key}, Value: {restored_delete_record.value}")

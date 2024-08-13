@@ -20,9 +20,9 @@ class Tree:
     def search(self, k):
         with self.lock:
             try:
-                return self.tree[k]
+                return self.tree[k],True
             except KeyError:
-                return None
+                return None,False
 
     # 显示
     def show(self):

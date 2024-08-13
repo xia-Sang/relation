@@ -36,9 +36,5 @@ class BloomFilter:
     def check(self, item):
         return all(self.bit_array[hash_val] for hash_val in self._hashes(item))
 
-    def save_bitmap(self, file_path):
-        with open(file_path, 'wb') as f:
-            self.bit_array.tofile(f)
-
     def reset(self):
         self.bit_array.setall(0)

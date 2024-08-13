@@ -38,11 +38,12 @@ class WriteAheadLog:
             self.write_lock.notify_all()
     
 
-    def read_all(self):
+    def read_all(self)->[Record]:
         with self.read_lock:
             while self.writer:
                 self.read_lock.wait()
             self.readers += 1
+            records=[]
             with open(self.log_file, 'rb') as f:
                 # 根据写入来读取
                 while True:
@@ -51,11 +52,11 @@ class WriteAheadLog:
                         break
                     data=f.read(int.from_bytes(length, 'big'))
                     record=Record.from_bytes(data)
-                    print(record)
+                    records.append(record)
             self.readers -= 1
             if self.readers == 0:
                 self.write_lock.notify_all()
-
+            return records
     def clear(self):
         with self.write_lock:
             while self.writer or self.readers > 0:
@@ -89,13 +90,3 @@ class WriteAheadLog:
             self.writer = False
             self.write_lock.notify_all()
 
-# # 进行测试
-# def test_wal():
-#     wal=WriteAheadLog("wal",1)
-#     wal.write(Record("1", "1"))
-#     wal.write(Record("2", "2"))
-#     wal.write(Record("2", None))
-#     wal.read_all()
-#     # wal.clear()
-
-# test_wal()

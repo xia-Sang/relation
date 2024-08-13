@@ -18,8 +18,10 @@ def get_wal_file_path(dir_path, key):
 def parse_wal_file_path(wal_file_path):
     return int(os.path.basename(wal_file_path).split('.')[0])
 
+# def get_sst_file_path(level, sst_index):
+    # return  "{0:04}_{1:03}.sst".format(level, sst_index)
+def get_sst_file_path(level, sst_index):
+    return  "{}_{}.sst".format(level, sst_index)
+def parse_sst_file_path(sst_file_path):
+    return int(sst_file_path.split('_')[0]), int(sst_file_path.split('_')[1].split('.')[0])
 
-# # 测试解析wal文件路径
-# if __name__ == "__main__":
-#     print(parse_wal_file_path("data/000000001.wal"))
-#     print(get_wal_file_path("data", 1))
