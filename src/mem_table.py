@@ -32,7 +32,10 @@ class Tree:
                 if not func(key, value):
                     return False
             return True
-        
+    
+    def items(self):
+        with self.lock:
+            return self.tree.items()
     # 获取容量
     def get_capacity(self):
         with self.lock:

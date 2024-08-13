@@ -38,23 +38,5 @@ class BloomFilter:
             bit_array.fromfile(f)
         return BloomFilter(size, hash_count, seed, bit_array)
 
-# def test_bloom_filter():
-#     bloom = BloomFilter(size=1000, hash_count=5, seed=42)
-#     bloom.add("hello")
-#     bloom.add("world")
-
-#     # 保存位图到文件
-#     bloom.save_bitmap('bloom_filter_bitmap.dat')
-
-#     # 从文件加载位图并恢复 Bloom 过滤   器
-#     loaded_bloom = BloomFilter.load_bitmap('bloom_filter_bitmap.dat', size=1000, hash_count=5, seed=42)
-
-#     # 检查元素
-#     print(loaded_bloom.check("hello"))  # 输出: True
-#     print(loaded_bloom.check("world"))  # 输出: True
-#     print(loaded_bloom.check("python"))  # 输出: False (可能为True，但False意味着确定不在集合中)
-
-# test_bloom_filter()
-
 
 
