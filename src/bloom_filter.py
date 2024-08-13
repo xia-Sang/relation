@@ -1,16 +1,25 @@
 import hashlib
 import bitarray
 
+
 class BloomFilter:
     def __init__(self, size, hash_count, seed, bit_array=None):
         self.size = size
         self.hash_count = hash_count
         self.seed = seed
         if bit_array:
-            self.bit_array = bitarray.bitarray(bit_array)
+            self.bit_array = bitarray.bitarray()
+            self.bit_array.frombytes(bit_array)
         else:
             self.bit_array = bitarray.bitarray(size)
             self.bit_array.setall(0)
+
+    def to_bytes(self):
+        return self.bit_array.tobytes()
+
+    def from_bytes(self, bytes_data):
+        self.bit_array = bitarray.bitarray()
+        self.bit_array.frombytes(bytes_data)
 
     def _hashes(self, item):
         result = []
@@ -31,12 +40,5 @@ class BloomFilter:
         with open(file_path, 'wb') as f:
             self.bit_array.tofile(f)
 
-    @staticmethod
-    def load_bitmap(file_path, size, hash_count, seed):
-        bit_array = bitarray.bitarray()
-        with open(file_path, 'rb') as f:
-            bit_array.fromfile(f)
-        return BloomFilter(size, hash_count, seed, bit_array)
-
-
-
+    def reset(self):
+        self.bit_array.setall(0)

@@ -31,7 +31,7 @@ class LSMTree:
         self.memtable.insert(key, None)
 
     def check_memtable_overflow(self):
-        return self.memtable.size() > self.options.memtable_size
+        return self.memtable.size() > self.options.mem_table_size
     
     def new_memtable(self):
         self.old_memtables.append(OldMemtable(self.memtable_index, self.memtable))

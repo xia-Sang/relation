@@ -32,29 +32,39 @@ class Record:
 
     @staticmethod
     def from_bytes(bytes_data):
-        # 解析 keySize
+        # 解析单个record
         key_size = struct.unpack('!I', bytes_data[:4])[0]
-        
-        # 解析 key
         key = bytes_data[4:4 + key_size].decode('utf-8')
-        
-        # 解析 valueSize
         value_size_offset = 4 + key_size
         value_size = struct.unpack('!I', bytes_data[value_size_offset:value_size_offset + 4])[0]
-        
-        # 解析 value
         value = bytes_data[value_size_offset + 4:value_size_offset + 4 + value_size].decode('utf-8') if value_size > 0 else None
-        
-        # 解析 checksum
         checksum_offset = value_size_offset + 4 + value_size
         checksum = struct.unpack('!I', bytes_data[checksum_offset:checksum_offset + 4])[0]
-        
-        # 校验 checksum
         calculated_checksum = zlib.crc32(bytes_data[:checksum_offset]) & 0xffffffff
         if checksum != calculated_checksum:
             raise ValueError("Checksum does not match!")
-
         return Record(key, value)
+
+def from_bytes_multiple(bytes_data):
+    # 解析一组record
+    records = []
+    offset = 0
+    while offset < len(bytes_data):
+        key_size = struct.unpack('!I', bytes_data[offset:offset + 4])[0]
+        offset += 4
+        key = bytes_data[offset:offset + key_size].decode('utf-8')
+        offset += key_size
+        value_size = struct.unpack('!I', bytes_data[offset:offset + 4])[0]
+        offset += 4
+        value = bytes_data[offset:offset + value_size].decode('utf-8') if value_size > 0 else None
+        offset += value_size
+        checksum = struct.unpack('!I', bytes_data[offset:offset + 4])[0]
+        offset += 4
+        calculated_checksum = zlib.crc32(bytes_data[offset - (4 + key_size + 4 + value_size + 4):offset - 4]) & 0xffffffff
+        if checksum != calculated_checksum:
+            raise ValueError("Checksum does not match!")
+        records.append(Record(key, value))
+    return records
 
 
 # # 进行测试

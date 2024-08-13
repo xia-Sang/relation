@@ -1,13 +1,16 @@
 import os
 
+from bloom_filter import BloomFilter
+
 class Options:
-    def __init__(self, dir_path,memtable_size=1024,max_sst_size=1024, max_level=7, max_level_num=7, table_num=10):
+    def __init__(self, dir_path,mem_table_size=1024,max_sst_size=1024, max_level=7, max_level_num=7, table_num=10):
         self.dir_path = dir_path
         self.max_sst_size = max_sst_size
         self.max_level = max_level
         self.max_level_num = max_level_num
         self.table_num = table_num
-        self.memtable_size = memtable_size
+        self.mem_table_size = mem_table_size
+        self.bloom_filter=BloomFilter(1024,3,1)
         self._set_default_options()
     
     def __str__(self) -> str:
@@ -22,8 +25,8 @@ class Options:
             self.max_level_num = 7
         if self.table_num <= 0:
             self.table_num = 10
-        if self.memtable_size <= 0:
-            self.memtable_size = 1024
+        if self.mem_table_size <= 0:
+            self.mem_table_size = 1024
     def check(self):
         try:
             os.makedirs(self.dir_path, exist_ok=True)
