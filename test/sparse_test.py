@@ -16,5 +16,6 @@ def test_parse_multiple_indices():
     for index in indices:
         print(index)
 
+
 test_parse_multiple_indices()
 test_sparse_index()

@@ -59,7 +59,8 @@ class SSTable:
 
     # 删除sst文件
     def delete(self):
-        os.remove(self.file_name)
+        if os.path.exists(self.file_name):
+            os.remove(self.file_name)
 
     # 读取meta信息
     def _read_meta(self):

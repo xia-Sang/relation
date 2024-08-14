@@ -25,3 +25,5 @@ def get_sst_file_path(level, sst_index):
 def parse_sst_file_path(sst_file_path):
     return int(sst_file_path.split('_')[0]), int(sst_file_path.split('_')[1].split('.')[0])
 
+def get_merge_data_left_right(length:int):
+    return random.randint(0, length - 1)

@@ -45,3 +45,13 @@ class Node:
 
     def _read_block_data(self, offset, length):
         return self.sst_reader.read_data_by_index(offset, length)
+
+    def read_data(self):
+        ls=[]
+        for pi in self.parse_index:
+            records = self._read_block_data(pi.block_offset, pi.block_length)
+            ls.extend(records)
+        return ls
+
+    def delete(self):
+        self.sst_reader.delete()

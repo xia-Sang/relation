@@ -37,7 +37,7 @@ def Test1():
         records = sst.read_data_by_index(i.block_offset, i.block_length)
         print("records", records)
     print(options.bloom_filter_size, options.bloom_filter_hash_num, options.bloom_filter_size,
-                               sst.read_bloom_filter())
+          sst.read_bloom_filter())
     bloom_filter = BloomFilter(options.bloom_filter_size, options.bloom_filter_hash_num, options.bloom_filter_seed,
                                sst.read_bloom_filter())
 
